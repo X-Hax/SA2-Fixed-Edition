@@ -1,8 +1,26 @@
 #include "pch.h"
+#include "SA2ModLoader.h"
 #include "UsercallFunctionHandler.h"
+#include "Trampoline.h"
 #include "config.h"
 #include "util.h"
 #include "mod.h"
+
+static char __cdecl PResetStuff_r(ObjectMaster* tp, EntityData1* twp, EntityData2* mwp, CharObj2Base* pwp);
+Trampoline PResetStuff_t(0x472F70, 0x472F78, PResetStuff_r);
+static char __cdecl PResetStuff_r(ObjectMaster* tp, EntityData1* twp, EntityData2* mwp, CharObj2Base* pwp)
+{
+    // This is not always reset properly, fixes crash for pointer dereference in some places (like Pyramid Cave snake rail)
+    if (pwp->CurrentDyncolTask)
+    {
+        if (!(twp->Status & (Status_OnObjectColli | Status_Ground)) || !(pwp->CurrentDyncolTask->Data1.Entity->Status & 0x100))
+        {
+            pwp->CurrentDyncolTask = nullptr;
+        }
+    }
+
+    return ((decltype(PResetStuff_r)*)PResetStuff_t.Target())(tp, twp, mwp, pwp);
+}
 
 void TransporterMachineBGFix() //Credit: Shaddatic
 {
