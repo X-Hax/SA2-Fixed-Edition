@@ -12,6 +12,8 @@
 #include "SA2ModLoader.h"
 #include "Trampoline.h"
 #include "IniFile.hpp"
+#include "UsercallFunctionHandler.h"
+#include "config.h"
 #include "mod.h"
 #include "util.h"
 

@@ -1,10 +1,19 @@
 #include "pch.h"
+#include "IniFile.hpp"
+#include "config.h"
 
-void ReadConfig(const char* path) {
+namespace config
+{
+	void read(const char* path)
+	{
+		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
+		const IniGroup* general = config->getGroup("");
 
-	const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
+		if (general)
+		{
+			
+		}
 
-
-	delete config;
-
+		delete config;
+	}
 }
