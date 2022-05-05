@@ -147,7 +147,6 @@ static void __declspec(naked) ShadowLightDashFix()
 	}
 }
 
-
 extern "C"
 {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
@@ -159,6 +158,7 @@ extern "C"
 
 		// Fix City Escape light field task missing
 		CityEscape_ObjectArray[58].Function = (ObjectFuncPtr)LIGHT_SW;
+		DowntownRace_ObjectArray_[58].Function = (ObjectFuncPtr)LIGHT_SW;
 
         Remove_SA2ErrorMSG();
         TransporterMachineBGFix();
