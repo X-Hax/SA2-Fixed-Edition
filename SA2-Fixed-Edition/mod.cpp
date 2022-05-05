@@ -73,6 +73,81 @@ BOOL CalcCarPath_r(int a1, LoopHead* path, float* a3, float* a4, float a5, NJS_P
     return FALSE;
 }
 
+//Sonic Light Dash Afterimage Shadow Bugfix code
+//Credit: End User
+FunctionPointer(void, sub_476C20, (int a1, int a2, int a3, float a4, char a5), 0x476C20);
+void _cdecl sub_71E460ShadowFix(EntityData1* a1, CharObj2Base* a2, SonicCharObj2* a3)
+{
+	char v3; // cl
+	NJS_OBJECT* v4; // eax
+	double v5; // st7
+	signed int v6; // edi
+	float* v7; // ebx
+	int v8; // [esp+18h] [ebp-4h]
+
+	if (!(FrameCountIngame & 1))
+	{
+		v3 = a2->CharID;
+		if (v3 == 0 && (v4 = CharacterModels[30].Model) != 0)
+		{
+			v5 = a2->AnimInfo.field_10 * 4096.0;
+		}
+		else
+		{
+			if (v3 != 1)
+			{
+				return;
+			}
+			v4 = CharacterModels[103].Model;
+			if (!CharacterModels[103].Model)
+			{
+				return;
+			}
+			v5 = a2->AnimInfo.field_10 * 8192.0;
+		}
+		v8 = (int)v4;
+		v6 = (signed int)v5;
+		njPushUnitMatrix();
+		njTranslate(0, a1->Position.x, a1->Position.y, a1->Position.z);
+		if (a1->Rotation.z)
+		{
+			njRotateZ(0, a1->Rotation.z);
+		}
+		if (a1->Rotation.x)
+		{
+			njRotateX(0, a1->Rotation.x);
+		}
+		if (a1->Rotation.y != 0x8000)
+		{
+			njRotateY(0, 0x8000 - a1->Rotation.y);
+		}
+		if (!TwoPlayerMode)
+		{
+			sub_476C20(v8, 0, (int)a3->TextureList, 0.0, a2->PlayerNum);
+		}
+		njPopMatrixEx();
+	}
+}
+
+static void __declspec(naked) ShadowLightDashFix()
+{
+	__asm
+	{
+		push[esp + 08h] // a3
+		push[esp + 08h] // a2
+		push esi // a1
+
+		// Call your __cdecl function here:
+		call sub_71E460ShadowFix
+
+		pop esi // a1
+		add esp, 4 // a2
+		add esp, 4 // a3
+		retn
+	}
+}
+
+
 extern "C"
 {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
