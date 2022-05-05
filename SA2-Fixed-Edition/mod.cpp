@@ -4,6 +4,13 @@
 #include "util.h"
 #include "mod.h"
 
+void Remove_SA2ErrorMSG()
+{
+    WriteData<5>((void*)0x688c4c, 0x90); //Remove controller and internet error thing
+    WriteData<5>((void*)0x664d6e, 0x90);
+    WriteData<5>((void*)0x439a66, 0x90);
+}
+
 // Add additional safety checks for sub_5E3D90 to fix NaN car positions
 BOOL CalcCarPath_r(int a1, LoopHead* path, float* a3, float* a4, float a5, NJS_POINT3* out_pos, Angle3* out_ang)
 {
@@ -48,6 +55,7 @@ extern "C"
 
         // Fix City Escape car bug
 		GenerateUsercallHook(CalcCarPath_r, rEAX, 0x5DE0B0, rECX, rEDX, rEAX, stack4, stack4, stack4, stack4);
+        Remove_SA2ErrorMSG();
 	}
 
 	__declspec(dllexport) ModInfo SA2ModInfo = { ModLoaderVer };
