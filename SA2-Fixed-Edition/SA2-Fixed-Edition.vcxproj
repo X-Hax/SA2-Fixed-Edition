@@ -108,6 +108,12 @@
     </ClCompile>
     <ClCompile Include="util.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\resources\configschema.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\mod.ini" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
