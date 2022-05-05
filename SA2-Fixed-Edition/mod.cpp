@@ -157,6 +157,9 @@ extern "C"
         // Fix City Escape car bug
 		GenerateUsercallHook(CalcCarPath_r, rEAX, 0x5DE0B0, rECX, rEDX, rEAX, stack4, stack4, stack4, stack4);
 
+		// Fix City Escape light field task missing
+		CityEscape_ObjectArray[58].Function = (ObjectFuncPtr)LIGHT_SW;
+
         Remove_SA2ErrorMSG();
         TransporterMachineBGFix();
 	}
