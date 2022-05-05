@@ -4,6 +4,14 @@
 #include "util.h"
 #include "mod.h"
 
+void TransporterMachineBGFix() //Credit: Shaddatic
+{
+    static float vRes = 480.0;
+    static float hRes = 853.0;
+    WriteData((float**)0x005A74C3, &vRes);   //Departure Machine Scrolling fix
+    WriteData((float**)0x005A74D1, &hRes);
+}
+
 void Remove_SA2ErrorMSG()
 {
     WriteData<5>((void*)0x688c4c, 0x90); //Remove controller and internet error thing
@@ -55,7 +63,9 @@ extern "C"
 
         // Fix City Escape car bug
 		GenerateUsercallHook(CalcCarPath_r, rEAX, 0x5DE0B0, rECX, rEDX, rEAX, stack4, stack4, stack4, stack4);
+
         Remove_SA2ErrorMSG();
+        TransporterMachineBGFix();
 	}
 
 	__declspec(dllexport) ModInfo SA2ModInfo = { ModLoaderVer };
